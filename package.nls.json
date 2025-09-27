@@ -1,8 +1,8 @@
 {
 	"extension.displayName": "Highlight",
 	"extension.description": "Highlight selected words",
-	"command.highlightSelectedWords.title": "Highlight Selected Words",
-	"command.clearHighlightWords.title": "Clear Highlight Words",
+	"command.highlightSelectedWords.title": "Highlight/Unhighlight Selected Words",
+	"command.clearHighlightWords.title": "Clear all Highlight Words",
 	"config.title": "Highlight Configuration",
 	"config.wholeWord.description": "Whether to highlight whole words only.",
 	"config.ignoreCase.description": "Whether to ignore case when highlighting.",

@@ -1,12 +1,12 @@
 {
 	"extension.displayName": "高亮",
 	"extension.description": "高亮选中的单词",
-	"command.highlightSelectedWords.title": "高亮选中的单词",
-	"command.clearHighlightWords.title": "清除高亮单词",
+	"command.highlightSelectedWords.title": "高亮/取消高亮选中的单词",
+	"command.clearHighlightWords.title": "清除所有高亮单词",
 	"config.title": "高亮配置",
 	"config.wholeWord.description": "是否只高亮整个单词。",
 	"config.ignoreCase.description": "高亮时是否忽略大小写。",
 	"config.colors.description": "用于高亮的颜色。",
 	"config.bold.description": "高亮文本是否加粗。",
-	"config.borderRadius.description": "高亮文本的圆角边框。"
+	"config.borderRadius.description": "高亮部分的圆角边框。"
 }
