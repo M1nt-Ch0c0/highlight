@@ -1,21 +1,24 @@
 # README
 
-该插件可将选中的单词进行高亮。
+This extension highlights selected words.
 
 ## Features
 
-- 支持选中/取消单词高亮(shift+F8)
+-   Supports highlighting/unhighlighting selected words (shift+F8)
 
-  ![支持选中/取消单词高亮](./resource/highlight_add_remove.gif)
-- 支持全量取消单词高亮(ctrl+shift+F8)
+    ![Supports highlighting/unhighlighting selected words](./resource/highlight_add_remove.gif)
 
-  ![支持全量取消单词高亮](./resource/highlight_remove_all.gif)
+-   Supports clearing all highlighted words (ctrl+shift+F8)
+
+    ![Supports clearing all highlighted words](./resource/highlight_remove_all.gif)
 
 ## Extension Settings
 
-* `highlight.configuration.wholeWord`: 是否完整单词匹配(boolean)
-* `highlight.configuration.ignoreCase`: 是否完整忽略大小写匹配(boolean)
-* `highlight.configuration.colors`: 高亮的颜色配置(array)
+*   `highlight.configuration.wholeWord`: Whether to highlight whole words only. (boolean, default: `true`)
+*   `highlight.configuration.ignoreCase`: Whether to ignore case when highlighting. (boolean, default: `false`)
+*   `highlight.configuration.Bold`: Whether the highlighted text should be bold. (boolean, default: `true`)
+*   `highlight.configuration.borderRadius`: Border radius of the highlight. (string, default: `"5px"`)
+*   `highlight.configuration.colors`: Colors used for highlighting. (array)
 
 ## Known Issues
 
@@ -31,7 +34,7 @@ N/A
 
 ## Reference
 
-reference list:
+Reference list:
 - https://github.com/debugpig/vscode-extension-highlight
 - https://github.com/rsbondi/highlight-words
 
