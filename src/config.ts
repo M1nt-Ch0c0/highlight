@@ -15,20 +15,31 @@ export class Config {
         const ignoreCaseConfig = config.get<boolean>('highlight.configuration.ignoreCase');
         this.ignoreCase = ignoreCaseConfig === undefined ? true : ignoreCaseConfig;
 
+        const isBoldConfig = config.get<boolean>('highlight.configuration.Bold');
+        this.isBold = isBoldConfig === undefined ? true : isBoldConfig;
+
+        const borderRadiusConfig = config.get<string>('highlight.configuration.borderRadius');
+        this.borderRadius = borderRadiusConfig === undefined ? '5px' : borderRadiusConfig;
+
         // 获取所有颜色
         this.decorationTypes = [];
         const colors = config.get<Color[]>('highlight.configuration.colors');
         if (colors) {
-            colors.forEach((color) => {
+            colors.forEach((color: Color) => {
                 let decorationType = vscode.window.createTextEditorDecorationType({
                     overviewRulerLane: vscode.OverviewRulerLane.Right,
                     light: {
-                        overviewRulerColor: vscode.OverviewRulerLane.Right,
+                        overviewRulerColor: color.light,
                         backgroundColor: color.light,
+                        fontWeight: this.isBold ? 'bold' : 'normal',
+                        borderRadius: this.borderRadius
                     },
                     dark: {
-                        overviewRulerColor: vscode.OverviewRulerLane.Right,
+                        overviewRulerColor: color.dark,
                         backgroundColor: color.dark,
+                        color: '#ffffff',
+                        fontWeight: this.isBold ? 'bold' : 'normal',
+                        borderRadius: this.borderRadius
                     }
                 });
                 this.decorationTypes.push(decorationType);
@@ -50,5 +61,7 @@ export class Config {
 
     private wholeWord: boolean;
     private ignoreCase: boolean;
+    private isBold: boolean;
+    private borderRadius: string;
     private decorationTypes: vscode.TextEditorDecorationType[];
 }
