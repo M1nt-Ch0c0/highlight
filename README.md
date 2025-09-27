@@ -1,4 +1,4 @@
-# Highlight README
+# README
 
 该插件可将选中的单词进行高亮。
 
@@ -23,13 +23,14 @@ N/A
 
 ## Release Notes
 
-### 0.1.0
+### 1.0.0
 
-第一个成型的版本
+fork from debugpig/vscode-extension-highlight
 
 ## Reference
 
 reference list:
+- https://github.com/debugpig/vscode-extension-highlight
 - https://github.com/rsbondi/highlight-words
 
 **Enjoy!**

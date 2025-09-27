@@ -1,0 +1,12 @@
+{
+	"extension.displayName": "Highlight",
+	"extension.description": "Highlight selected words",
+	"command.highlightSelectedWords.title": "Highlight Selected Words",
+	"command.clearHighlightWords.title": "Clear Highlight Words",
+	"config.title": "Highlight Configuration",
+	"config.wholeWord.description": "Whether to highlight whole words only.",
+	"config.ignoreCase.description": "Whether to ignore case when highlighting.",
+	"config.colors.description": "Colors used for highlighting.",
+	"config.bold.description": "Whether the highlighted text should be bold.",
+	"config.borderRadius.description": "Border radius of the highlight."
+}
