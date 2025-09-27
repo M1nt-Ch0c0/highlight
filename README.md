@@ -23,9 +23,11 @@ N/A
 
 ## Release Notes
 
-### 1.0.0
+### 1.0.0 (Forked)
 
-fork from debugpig/vscode-extension-highlight
+-   **Dependencies**: Updated and fixed outdated project development dependencies.
+-   **Configuration**: Added configurations for "whether to bold" (`highlight.configuration.Bold`) and "border radius" (`highlight.configuration.borderRadius`).
+-   **Highlighting**: Implemented a highlighting method that maintains visual consistency in dark mode.
 
 ## Reference
 
