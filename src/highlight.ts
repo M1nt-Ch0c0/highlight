@@ -29,12 +29,12 @@ export class Highlight {
         let idx = this.selectedWords.findIndex((word) => {
             return word === selectedWord;
         });
-        if (idx == -1) {
+        if (idx === -1) {
             // 加入列表，先找等于''的位置
             idx = this.selectedWords.findIndex((word) => {
                 return word === '';
             });
-            if (idx == -1) {
+            if (idx === -1) {
                 this.selectedWords.push(selectedWord);
             } else {
                 this.selectedWords[idx] = selectedWord;
@@ -71,7 +71,7 @@ export class Highlight {
         const text = editor.document.getText();
         const flags = this.config.IsIgnoreCase() ? 'gi' : 'g';
         this.selectedWords.forEach((selectedWord: string, idx: number) => {
-            if (selectedWord == '') {
+            if (selectedWord === '') {
                 return;
             }
             
@@ -79,7 +79,7 @@ export class Highlight {
 
             const regEx = new RegExp(pattern, flags);
             let execArray = regEx.exec(text);
-            while (execArray != null) {
+            while (execArray !== null) {
                 const startPos = editor.document.positionAt(execArray.index);
                 const endPos = editor.document.positionAt(execArray.index + execArray[0].length);
                 const decorationPos = { range: new vscode.Range(startPos, endPos) };
@@ -91,7 +91,13 @@ export class Highlight {
 
         this.decorators.forEach((decorator: vscode.TextEditorDecorationType, idx: number) => {
             editor.setDecorations(decorator, decorations[idx]);
-        })
+        });
+    }
+
+    public UpdateConfig(): void {
+        this.decorators.forEach(decorator => decorator.dispose());
+        this.config = new Config();
+        this.decorators = this.config.GetDecorationTypes();
     }
 
     private GetSelectedWord(editor: vscode.TextEditor) : string {

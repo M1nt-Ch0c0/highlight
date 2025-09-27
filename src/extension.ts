@@ -25,6 +25,13 @@ export function activate(context: vscode.ExtensionContext) {
 	vscode.window.onDidChangeActiveTextEditor(() => {
 		highlight.DecorateSelectedWords();
 	});
+
+	vscode.workspace.onDidChangeConfiguration(e => {
+		if (e.affectsConfiguration('highlight.configuration')) {
+			highlight.UpdateConfig();
+			highlight.DecorateSelectedWords();
+		}
+	});
 }
 
 // this method is called when your extension is deactivated
