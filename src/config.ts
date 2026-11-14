@@ -1,67 +1,35 @@
-
 import * as vscode from 'vscode';
+import {
+    DEFAULT_COLORS,
+    HighlightColor,
+    readBoolean,
+    sanitizeColors,
+    sanitizeMaxMatches,
+    sanitizeRadius,
+} from './core';
 
-interface Color {
-    light: string;
-    dark: string;
+export interface Settings {
+    wholeWord: boolean;
+    ignoreCase: boolean;
+    bold: boolean;
+    borderRadius: string;
+    colors: HighlightColor[];
+    maxMatches: number;
+    showStatusBar: boolean;
+    persist: boolean;
 }
 
-export class Config {
-    constructor() {
-        let config = vscode.workspace.getConfiguration('');
-        const wholeWordConfig = config.get<boolean>('highlight.configuration.wholeWord');
-        this.wholeWord = wholeWordConfig === undefined ? true : wholeWordConfig;
-
-        const ignoreCaseConfig = config.get<boolean>('highlight.configuration.ignoreCase');
-        this.ignoreCase = ignoreCaseConfig === undefined ? true : ignoreCaseConfig;
-
-        const isBoldConfig = config.get<boolean>('highlight.configuration.Bold');
-        this.isBold = isBoldConfig === undefined ? true : isBoldConfig;
-
-        const borderRadiusConfig = config.get<string>('highlight.configuration.borderRadius');
-        this.borderRadius = borderRadiusConfig === undefined ? '5px' : borderRadiusConfig;
-
-        // 获取所有颜色
-        this.decorationTypes = [];
-        const colors = config.get<Color[]>('highlight.configuration.colors');
-        if (colors) {
-            colors.forEach((color: Color) => {
-                let decorationType = vscode.window.createTextEditorDecorationType({
-                    overviewRulerLane: vscode.OverviewRulerLane.Right,
-                    light: {
-                        overviewRulerColor: color.light,
-                        backgroundColor: color.light,
-                        fontWeight: this.isBold ? 'bold' : 'normal',
-                        borderRadius: this.borderRadius
-                    },
-                    dark: {
-                        overviewRulerColor: color.dark,
-                        backgroundColor: color.dark,
-                        color: '#ffffff',
-                        fontWeight: this.isBold ? 'bold' : 'normal',
-                        borderRadius: this.borderRadius
-                    }
-                });
-                this.decorationTypes.push(decorationType);
-            });
-        }
-    }
-
-    public IsIgnoreCase(): boolean {
-        return this.ignoreCase;
-    }
-
-    public IsWholeWord(): boolean {
-        return this.wholeWord;
-    }
-
-    public GetDecorationTypes(): vscode.TextEditorDecorationType[] {
-        return this.decorationTypes;
-    }
-
-    private wholeWord: boolean;
-    private ignoreCase: boolean;
-    private isBold: boolean;
-    private borderRadius: string;
-    private decorationTypes: vscode.TextEditorDecorationType[];
+export function readSettings(): Settings {
+    const config = vscode.workspace.getConfiguration('highlight.configuration');
+    const colors = sanitizeColors(config.get('colors'));
+    return {
+        wholeWord: readBoolean(config.get('wholeWord'), true),
+        ignoreCase: readBoolean(config.get('ignoreCase'), false),
+        bold: readBoolean(config.get('Bold'), true),
+        borderRadius: sanitizeRadius(config.get('borderRadius')),
+        colors: colors.length > 0 ? colors : DEFAULT_COLORS.slice(),
+        maxMatches: sanitizeMaxMatches(config.get('maxMatches')),
+        showStatusBar: readBoolean(config.get('showStatusBar'), true),
+        persist: readBoolean(config.get('persist'), true),
+    };
 }

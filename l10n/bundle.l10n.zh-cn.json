@@ -1,0 +1,8 @@
+{
+	"Highlight": "高亮",
+	"Selection is too long to highlight (max {0} characters).": "选区过长，无法高亮（最多 {0} 个字符）。",
+	"Select highlighted words to remove": "选择要取消高亮的词",
+	"No highlighted words in this editor.": "当前编辑器里没有高亮词。",
+	"Click to remove words": "点击可移除高亮词",
+	"{0} highlighted words": "{0} 个高亮词"
+}
