@@ -1,38 +1,24 @@
-
 import * as vscode from 'vscode';
-import {Highlight} from './highlight';
+import { Highlight } from './highlight';
 
-export function activate(context: vscode.ExtensionContext) {
-
-	console.log('Congratulations, your extension "highlight" is now active!');
-
-	let highlight: Highlight = new Highlight();
-
-	let disposable = vscode.commands.registerCommand('highlight.selectedWords', () => {
-		highlight.SelectedWords();
-	});
-	context.subscriptions.push(disposable);
-
-	disposable = vscode.commands.registerCommand('highlight.clearWords', () => {
-		highlight.ClearWords();
-	});
-	context.subscriptions.push(disposable);
-
-	vscode.workspace.onDidChangeTextDocument(() => {
-		highlight.RefeshSelectedWords();
-	});
-
-	vscode.window.onDidChangeActiveTextEditor(() => {
-		highlight.DecorateSelectedWords();
-	});
-
-	vscode.workspace.onDidChangeConfiguration(e => {
-		if (e.affectsConfiguration('highlight.configuration')) {
-			highlight.UpdateConfig();
-			highlight.DecorateSelectedWords();
-		}
-	});
+export function activate(context: vscode.ExtensionContext): void {
+    const highlight = new Highlight(context);
+    context.subscriptions.push(
+        highlight,
+        vscode.commands.registerCommand('highlight.selectedWords', () => highlight.toggleSelection()),
+        vscode.commands.registerCommand('highlight.clearWords', () => highlight.clear()),
+        vscode.commands.registerCommand('highlight.nextOccurrence', () => highlight.move(1)),
+        vscode.commands.registerCommand('highlight.previousOccurrence', () => highlight.move(-1)),
+        vscode.commands.registerCommand('highlight.removeWord', () => highlight.removeOne()),
+        vscode.workspace.onDidChangeTextDocument((event) => highlight.onDocumentChanged(event.document)),
+        vscode.workspace.onDidCloseTextDocument((document) => highlight.onDocumentClosed(document)),
+        vscode.window.onDidChangeVisibleTextEditors(() => highlight.onEditorsChanged()),
+        vscode.workspace.onDidChangeConfiguration((event) => {
+            if (event.affectsConfiguration('highlight.configuration')) {
+                highlight.updateConfig();
+            }
+        }),
+    );
 }
 
-// this method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate(): void { }

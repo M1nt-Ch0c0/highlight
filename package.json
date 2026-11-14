@@ -2,44 +2,119 @@
 	"name": "highlight",
 	"displayName": "%extension.displayName%",
 	"description": "%extension.description%",
+	"version": "2.0.0",
+	"publisher": "M1nt-Ch0c0",
+	"license": "MIT",
 	"icon": "resource/icon.png",
 	"repository": {
-		"url": "https://github.com/M1nt-Ch0c0/vscode-extension-highlight"
+		"type": "git",
+		"url": "https://github.com/M1nt-Ch0c0/highlight.git"
 	},
+	"bugs": {
+		"url": "https://github.com/M1nt-Ch0c0/highlight/issues"
+	},
+	"homepage": "https://github.com/M1nt-Ch0c0/highlight#readme",
+	"qna": "https://github.com/M1nt-Ch0c0/highlight/issues",
 	"author": {
 		"name": "M1nt-Ch0c0"
 	},
-	"publisher": "M1nt-Ch0c0",
-	"version": "1.0.0",
-	"engines": {
-		"vscode": "^1.47.0"
+	"keywords": [
+		"highlight",
+		"marker",
+		"selection",
+		"word"
+	],
+	"galleryBanner": {
+		"color": "#e11d48",
+		"theme": "dark"
 	},
 	"categories": [
+		"Visualization",
 		"Other"
 	],
-	"activationEvents": [],
+	"engines": {
+		"vscode": "^1.85.0"
+	},
+	"capabilities": {
+		"virtualWorkspaces": true,
+		"untrustedWorkspaces": {
+			"supported": true
+		}
+	},
+	"activationEvents": [
+		"onStartupFinished",
+		"onCommand:highlight.selectedWords",
+		"onCommand:highlight.clearWords",
+		"onCommand:highlight.nextOccurrence",
+		"onCommand:highlight.previousOccurrence",
+		"onCommand:highlight.removeWord"
+	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
 				"command": "highlight.selectedWords",
-				"title": "%command.highlightSelectedWords.title%"
+				"title": "%command.highlightSelectedWords.title%",
+				"category": "%command.category%",
+				"icon": "$(highlight)"
 			},
 			{
 				"command": "highlight.clearWords",
-				"title": "%command.clearHighlightWords.title%"
+				"title": "%command.clearHighlightWords.title%",
+				"category": "%command.category%"
+			},
+			{
+				"command": "highlight.nextOccurrence",
+				"title": "%command.nextOccurrence.title%",
+				"category": "%command.category%"
+			},
+			{
+				"command": "highlight.previousOccurrence",
+				"title": "%command.previousOccurrence.title%",
+				"category": "%command.category%"
+			},
+			{
+				"command": "highlight.removeWord",
+				"title": "%command.removeWord.title%",
+				"category": "%command.category%"
 			}
 		],
 		"keybindings": [
 			{
 				"command": "highlight.selectedWords",
-				"key": "shift+f8"
+				"key": "shift+f8",
+				"when": "editorTextFocus"
 			},
 			{
 				"command": "highlight.clearWords",
-				"key": "ctrl+shift+f8"
+				"key": "ctrl+shift+f8",
+				"when": "editorTextFocus"
+			},
+			{
+				"command": "highlight.nextOccurrence",
+				"key": "alt+f8",
+				"when": "editorTextFocus"
+			},
+			{
+				"command": "highlight.previousOccurrence",
+				"key": "shift+alt+f8",
+				"when": "editorTextFocus"
 			}
 		],
+		"menus": {
+			"editor/context": [
+				{
+					"command": "highlight.selectedWords",
+					"when": "editorTextFocus",
+					"group": "highlight@1"
+				},
+				{
+					"command": "highlight.clearWords",
+					"when": "editorTextFocus",
+					"group": "highlight@2"
+				}
+			]
+		},
 		"configuration": [
 			{
 				"title": "%config.title%",
@@ -67,40 +142,41 @@
 					"highlight.configuration.colors": {
 						"type": "array",
 						"default": [
-							{
-								"light": "#b3d9ff",
-								"dark": "#F5B041"
-							},
-							{
-								"light": "#e6ffb3",
-								"dark": "#FF9933"
-							},
-							{
-								"light": "#b3b3ff",
-								"dark": "#85C1E9"
-							},
-							{
-								"light": "#ffd9b3",
-								"dark": "#CD6155"
-							},
-							{
-								"light": "#ffb3ff",
-								"dark": "#AF7AC5"
-							},
-							{
-								"light": "#b3ffb3",
-								"dark": "#48C9B0"
-							},
-							{
-								"light": "#ffff80",
-								"dark": "#52BE80"
-							},
-							{
-								"light": "#d1e0e0",
-								"dark": "#F4D03F"
-							}
+							{ "light": "#b3d9ff", "dark": "#F5B041" },
+							{ "light": "#e6ffb3", "dark": "#FF9933" },
+							{ "light": "#b3b3ff", "dark": "#85C1E9" },
+							{ "light": "#ffd9b3", "dark": "#CD6155" },
+							{ "light": "#ffb3ff", "dark": "#AF7AC5" },
+							{ "light": "#b3ffb3", "dark": "#48C9B0" },
+							{ "light": "#ffff80", "dark": "#52BE80" },
+							{ "light": "#d1e0e0", "dark": "#F4D03F" }
 						],
+						"items": {
+							"type": "object",
+							"required": ["light", "dark"],
+							"properties": {
+								"light": { "type": "string" },
+								"dark": { "type": "string" }
+							}
+						},
 						"description": "%config.colors.description%"
+					},
+					"highlight.configuration.maxMatches": {
+						"type": "number",
+						"default": 5000,
+						"minimum": 1,
+						"maximum": 100000,
+						"description": "%config.maxMatches.description%"
+					},
+					"highlight.configuration.showStatusBar": {
+						"type": "boolean",
+						"default": true,
+						"description": "%config.showStatusBar.description%"
+					},
+					"highlight.configuration.persist": {
+						"type": "boolean",
+						"default": true,
+						"description": "%config.persist.description%"
 					}
 				}
 			}
@@ -109,23 +185,19 @@
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
 		"compile": "tsc -p ./",
-		"lint": "eslint src --ext ts",
+		"compile:test": "tsc -p ./tsconfig.test.json",
+		"lint": "eslint src",
 		"watch": "tsc -watch -p ./",
-		"pretest": "npm run compile && npm run lint",
-		"test": "node ./out/test/runTest.js"
+		"test": "npm run compile && npm run compile:test && node --test out/test/core.test.js",
+		"package": "vsce package"
 	},
 	"devDependencies": {
-		"@types/vscode": "^1.47.0",
-		"@types/glob": "^9.0.0",
-		"@types/mocha": "^10.0.10",
 		"@types/node": "^24.5.2",
-		"eslint": "^9.36.0",
-		"@typescript-eslint/parser": "^8.44.1",
+		"@types/vscode": "1.85.0",
 		"@typescript-eslint/eslint-plugin": "^8.44.1",
-		"glob": "^11.0.3",
-		"mocha": "^11.7.2",
-		"typescript": "^5.9.2",
-		"@vscode/test-electron": "^2.5.2",
-		"@vscode/vsce": "^3.6.2"
+		"@typescript-eslint/parser": "^8.44.1",
+		"@vscode/vsce": "^3.6.2",
+		"eslint": "^9.36.0",
+		"typescript": "^5.9.2"
 	}
 }
